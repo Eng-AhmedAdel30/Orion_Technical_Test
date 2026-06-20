@@ -15,28 +15,25 @@ Forecast 2009 by Country, and Top Customer's monthly sales trend.
 
 ### Power BI Data Model
 
-![Power BI data model](images/DataModel_Power\tbi.png)
+![Power BI data model](images/DataModel_Powerbi.png)
 
 `Fact_Sales` relates to `Dim_Products`, `Dim_Customers`, and `Dim_Date` (all
-one-to-many). `Fact_Forecast` relates only to the `Dim_Year` bridge table — it has
-no relationship to `Dim_Products` or `Dim_Customers`, since `Brand`/`CountryRegion`
-aren't unique keys on those dimensions for why an
-earlier many-to-many attempt here was reverted).
+one-to-many).
 
 ### Database Schema (generated from the real DDL)
 
-![Database ER diagram](images/Database/tDiagram.png)
+![Database ER diagram](images/Database_Diagram.png)
 
 Two-schema design: `stg` (raw, typed, unconstrained mirror of the source CSVs) feeds
 into `dw` (the star schema with surrogate keys and FKs). Diagram generated directly
-from [`sql/ddl/01_create_schema_and_tables.sql`](sql/ddl/01_create_schema_and_tables.sql)
+from [`sql/ddl/01_create_schema_and_tables.sql`](SQL/DDL_Queries.sql)
 to guarantee it matches the actual schema, not a stale screenshot.
 
 ### ETL Notebook (executed output)
 
 ![ETL notebook preview](images/Notebook.png)
 
-Rendered directly from [`etl/etl_pipeline.ipynb`](etl/etl_pipeline.ipynb) — real
+Rendered directly from [`etl/etl_pipeline.ipynb`](Notebook.ipynb) — real
 output against the actual 298,246-row `Sales.json`, not illustrative sample data.
 
 ## Project structure
