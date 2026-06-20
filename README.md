@@ -4,13 +4,46 @@ End-to-end data pipeline for the Orion Technical Assessment: raw JSON sales/fore
 data → Python ETL → SQL Server staging/data warehouse (star schema) → Power BI
 dashboard.
 
-![Dashboard overview](images/Dashboard_Orion.png)
+## Visuals
+
+### Power BI Dashboard
+
+![Dashboard](images/Dashboard_Orion.png)
+
+KPI cards, monthly Sales trend (2008 vs 2009), Top 10 Products by share, Sales vs
+Forecast 2009 by Country, and Top Customer's monthly sales trend.
+
+### Power BI Data Model
+
+![Power BI data model](images/DataModel_Power\tbi.png)
+
+`Fact_Sales` relates to `Dim_Products`, `Dim_Customers`, and `Dim_Date` (all
+one-to-many). `Fact_Forecast` relates only to the `Dim_Year` bridge table — it has
+no relationship to `Dim_Products` or `Dim_Customers`, since `Brand`/`CountryRegion`
+aren't unique keys on those dimensions for why an
+earlier many-to-many attempt here was reverted).
+
+### Database Schema (generated from the real DDL)
+
+![Database ER diagram](images/Database/tDiagram.png)
+
+Two-schema design: `stg` (raw, typed, unconstrained mirror of the source CSVs) feeds
+into `dw` (the star schema with surrogate keys and FKs). Diagram generated directly
+from [`sql/ddl/01_create_schema_and_tables.sql`](sql/ddl/01_create_schema_and_tables.sql)
+to guarantee it matches the actual schema, not a stale screenshot.
+
+### ETL Notebook (executed output)
+
+![ETL notebook preview](images/Notebook.png)
+
+Rendered directly from [`etl/etl_pipeline.ipynb`](etl/etl_pipeline.ipynb) — real
+output against the actual 298,246-row `Sales.json`, not illustrative sample data.
 
 ## Project structure
 
 ```
 .
-├── Notebook/
+├── etl/
 │   └── etl_pipeline.ipynb        # Extract, clean, transform Sales.json + forecast.json
 ├── sql/
 │   ├── ddl/
@@ -19,8 +52,12 @@ dashboard.
 │       └── 01_load_stg_to_dw.sql             # BULK INSERT + stg → dw load logic
 ├── powerbi/
 │   └── Orion_Dashboard.pbix      # Final dashboard
-├── images/
-    └── dashboard_overview.png    # Dashboard screenshot
+ ── images/
+    ├── dashboard_overview.png     # Dashboard screenshot
+    ├── powerbi_data_model.png     # Power BI relationships view
+    ├── database_diagram.png       # ER diagram generated from the real DDL
+    ├── notebook_etl_preview.png   # Rendered ETL notebook (real output)
+    └── orion360_logo.png
 
 ```
 
@@ -31,15 +68,18 @@ dashboard.
 | `Sales.json` | 298,246 | One row per transaction (product + customer + day) |
 | `forecast.json` | 33 | One row per Country × Brand × Year (2009 only) |
 
+This is the Microsoft Contoso retail sample dataset. See
+[`docs/assumptions_and_findings.md`](docs/assumptions_and_findings.md) for the full
+data quality investigation.
 
 ## Pipeline overview
 
-**1. ETL (`Notebook.ipynb`)**
-Streams the 187MB `Sales.json` with `json`, cleans nulls/types, and splits the flat
+**1. ETL (`etl/etl_pipeline.ipynb`)**
+Streams the 187MB `Sales.json` with `ijson`, cleans nulls/types, and splits the flat
 source records into a star schema: `Products`, `Customers`, `Sales` (fact),
 `Forecast` (fact). Outputs four CSVs.
 
-**2. SQL Server warehouse (`SQL/ddl`, `SQL/dml`)**
+**2. SQL Server warehouse (`sql/ddl`, `sql/dml`)**
 Two-schema design:
 - **`stg`** — raw, typed, unconstrained mirror of the CSVs (no business logic)
 - **`dw`** — star schema with surrogate keys, FKs, and a `Dim_Date` table built
