@@ -65,9 +65,6 @@ output against the actual 298,246-row `Sales.json`, not illustrative sample data
 | `Sales.json` | 298,246 | One row per transaction (product + customer + day) |
 | `forecast.json` | 33 | One row per Country × Brand × Year (2009 only) |
 
-This is the Microsoft Contoso retail sample dataset. See
-[`docs/assumptions_and_findings.md`](docs/assumptions_and_findings.md) for the full
-data quality investigation.
 
 ## Pipeline overview
 
@@ -120,4 +117,4 @@ full in [`docs/assumptions_and_findings.md`](docs/assumptions_and_findings.md):
 
 ## Tech stack
 
-Python (pandas, ijson) · SQL Server (T-SQL) · Power BI (DAX)
+Python (pandas, json) · SQL Server (T-SQL) · Power BI (DAX)
