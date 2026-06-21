@@ -8,7 +8,7 @@ dashboard.
 
 ### Power BI Dashboard
 
-![Dashboard](images/Dashboard_Orion.png)
+![Dashboard](images/Dashboard.png)
 
 KPI cards, monthly Sales trend (2008 vs 2009), Top 10 Products by share, Sales vs
 Forecast 2009 by Country, and Top Customer's monthly sales trend.
