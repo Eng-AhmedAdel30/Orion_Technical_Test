@@ -107,7 +107,7 @@ full in [`docs/assumptions_and_findings.md`](docs/assumptions_and_findings.md):
 
 ## How to reproduce
 
-1. Run `etl/etl_pipeline.ipynb` top to bottom against `Sales.json` / `forecast.json`
+1. Run `Notebook.ipynb` top to bottom against `Sales.json` / `forecast.json`
    → produces `Products.csv`, `Customers.csv`, `Sales.csv`, `Forecast.csv`.
 2. Run `sql/ddl/01_create_schema_and_tables.sql` against a new SQL Server database.
 3. Update the file paths in `sql/dml/01_load_stg_to_dw.sql` to point at your CSVs,
@@ -115,6 +115,26 @@ full in [`docs/assumptions_and_findings.md`](docs/assumptions_and_findings.md):
 4. Open `powerbi/Orion_Dashboard.pbix`, point the data source at your SQL Server
    instance, refresh.
 
-## Tech stack
+## Tech Stack
 
-Python (pandas, json) · SQL Server (T-SQL) · Power BI (DAX)
+| Technology | Purpose |
+|------------|----------|
+| 🐍 Python (Pandas, ijson) | Data Extraction, Cleaning & Transformation |
+| 🗄️ SQL Server (T-SQL) | Data Warehouse & ETL Loading |
+| 📊 Power BI (DAX) | Data Modeling & Visualization |
+| 📓 Jupyter Notebook | ETL Development |
+| 🔧 Git & GitHub | Version Control & Collaboration |
+
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-red?logo=microsoftsqlserver)
+![Power BI](https://img.shields.io/badge/Power%20BI-DAX-yellow?logo=powerbi)
+![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)
+---
+
+# Contact
+
+## **Ahmed Adel**
+
+📧 **Email:**    es-AhmedAdel2025@alexu.edu.eg
+
+💼 **LinkedIn:** www.linkedin.com/in/eng-ahmedadel30
